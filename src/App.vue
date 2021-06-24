@@ -1,10 +1,11 @@
 <template>
   <div class="container">
     <LeftPart></LeftPart>
-    <RightPart></RightPart>
     <div class="wifi-container">
       <Wifi class="wifi"></Wifi>
     </div>
+    <RightPart></RightPart>
+    
   </div>
 </template>
 
@@ -19,15 +20,15 @@ import Wifi from './components/wifi.vue'
 .container {
   width: 100vw;
   height: 100vh;
-  padding: 100px;
+  padding: 200px;
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   position: relative;
 
   .wifi-container {
-    position: fixed;
-    bottom: 0;
+    // position: fixed;
+    top: 0;
     left: 48%;
     .wifi {
       width: 100px;

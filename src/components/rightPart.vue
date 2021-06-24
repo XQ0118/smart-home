@@ -2,21 +2,14 @@
   <div :class="classObject">
     <Box :box="currentItem" :key="currentItem.url"></Box>
     <div class="smart-select">
-      <a-select
-        v-model:value="currentItem"
-        style="width: 200px; margin-right: 8px"
-        size="large"
-      >
-        <a-select-option
-          v-for="item in optionsList"
-          :key="item.url"
-          :value="item"
-          >{{ item.label }}</a-select-option
-        >
+      <a-select v-model:value="currentItem" style="width: 200px; margin-right: 8px" size="large">
+        <a-select-option v-for="item in optionsList" :key="item.url" :value="item">{{ item.label }}</a-select-option>
       </a-select>
-      <a-button size="large" type="primary" @click="handleClick">{{
+      <a-button size="large" type="primary" @click="handleClick">
+        {{
         isPlay
-      }}</a-button>
+        }}
+      </a-button>
     </div>
   </div>
 </template>
@@ -29,7 +22,7 @@ export default defineComponent({
   components: {
     Box,
   },
-  setup() {
+  setup () {
     const rightList = [
       {
         label: '手机',
@@ -77,8 +70,8 @@ export default defineComponent({
       return play.value
         ? { 'smart-box-right-ani': true, ripple: play.value }
         : {
-            'smart-box-right': true,
-          }
+          'smart-box-right': true,
+        }
     })
 
     const isPlay = computed(() => (play.value ? '结束' : '工作'))
@@ -163,10 +156,10 @@ export default defineComponent({
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 400px;
+  height: 400px;
   border: 2px solid red;
-  border-radius: 20px;
+  border-radius: 50%;
   pointer-events: none;
   opacity: 0;
   animation: ripple 2s linear infinite;
