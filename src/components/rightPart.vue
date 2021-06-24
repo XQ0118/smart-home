@@ -14,7 +14,9 @@
           >{{ item.label }}</a-select-option
         >
       </a-select>
-      <a-button size="large" type="primary" @click="handleClick">工作</a-button>
+      <a-button size="large" type="primary" @click="handleClick">{{
+        isPlay
+      }}</a-button>
     </div>
   </div>
 </template>
@@ -72,20 +74,23 @@ export default defineComponent({
     const play = ref(false)
 
     const classObject = computed(() => {
-      return {
-        'smart-box-right': true,
-        ripple: play.value,
-      }
+      return play.value
+        ? { 'smart-box-right-ani': true, ripple: play.value }
+        : {
+            'smart-box-right': true,
+          }
     })
 
+    const isPlay = computed(() => (play.value ? '结束' : '工作'))
+
     const handleClick = () => {
-      console.log('handle click =>', document.querySelector('.smart-box-right'))
+      console.log('handle click =>')
 
       play.value = !play.value
       // document.querySelector('#audio').play()
     }
 
-    return { optionsList, currentItem, play, classObject, handleClick }
+    return { optionsList, currentItem, play, isPlay, classObject, handleClick }
   },
 })
 </script>
@@ -93,6 +98,26 @@ export default defineComponent({
 
 <style lang="less" scoped>
 .smart-box-right {
+  width: 340px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 2px;
+  border: 2px solid #f0f0f0;
+  padding: 12px;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 9%);
+
+  .smart-select {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 250px;
+    // margin: auto;
+    margin-top: 12px;
+  }
+}
+
+.smart-box-right-ani {
   width: 340px;
   display: flex;
   flex-direction: column;
@@ -117,15 +142,15 @@ export default defineComponent({
   }
 }
 
-.smart-box-right::before {
+.smart-box-right-ani::before {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  border: 1px solid red;
-  border-radius: 5px;
+  border: 2px solid red;
+  border-radius: 20px;
   pointer-events: none;
   opacity: 0;
   animation: ripple 2s linear 1s infinite;
@@ -133,21 +158,16 @@ export default defineComponent({
   -webkit-animation-play-state: paused;
 }
 
-.smart-box-right::after {
+.smart-box-right-ani::after {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  border: 1px solid red;
-  border-radius: 5px;
+  border: 2px solid red;
+  border-radius: 20px;
   pointer-events: none;
-  /*border-image:url(https://www.w3school.com.cn/i/border.png) 30 30 10 stretch; !*round repeat stretch*!*/
-  /*background-image: url(https://www.w3school.com.cn/i/border.png) ;*/
-  /*background-clip:border-box;*/
-  /*background-repeat:no-repeat;*/
-  /*background-color: transparent;*/
   opacity: 0;
   animation: ripple 2s linear infinite;
   animation-play-state: paused;
