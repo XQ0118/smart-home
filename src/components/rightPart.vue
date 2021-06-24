@@ -1,0 +1,194 @@
+<template>
+  <div :class="classObject">
+    <Box :box="currentItem" :key="currentItem.url"></Box>
+    <div class="smart-select">
+      <a-select
+        v-model:value="currentItem"
+        style="width: 200px; margin-right: 8px"
+        size="large"
+      >
+        <a-select-option
+          v-for="item in optionsList"
+          :key="item.url"
+          :value="item"
+          >{{ item.label }}</a-select-option
+        >
+      </a-select>
+      <a-button size="large" type="primary" @click="handleClick">工作</a-button>
+    </div>
+  </div>
+</template>
+
+<script>
+import { computed, defineComponent, ref } from 'vue'
+import Box from './box.vue'
+
+export default defineComponent({
+  components: {
+    Box,
+  },
+  setup() {
+    const rightList = [
+      {
+        label: '手机',
+        desc: '智能手机，极致体验，改变生活',
+        url: 'https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/iphone-12-family-select-2021?wid=940&hei=1112&fmt=jpeg&qlt=80&.v=1617135051000',
+      },
+      {
+        label: '平板电脑',
+        desc: '身材小，本事大，速度快',
+        url: 'https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/ipad-air-select-wifi-green-202009?wid=470&hei=556&fmt=png-alpha&.v=1598650644000, https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/ipad-air-select-wifi-green-202009?wid=940&hei=1112&fmt=png-alpha&.v=1598650644000',
+      },
+      {
+        label: '智能门锁',
+        desc: '指纹解锁，保护家庭安全',
+        url: 'https://cdn.aqara.com/cdn/website/static/lodash-4.17.15/N200_fengmian.png',
+      },
+      {
+        label: '光照传感器',
+        desc: '智能感知家中光感变化',
+        url: 'https://cdn.aqara.com/cdn/website/static/lodash-4.17.15/light-brightness-sensor-t1.png',
+      },
+      {
+        label: '人体传感器',
+        desc: '智能感知人体或动物的移动',
+        url: 'https://cdn.aqara.com/cdn/website/static/lodash-4.17.15/motion-detector-t1.png',
+      },
+      {
+        label: '温湿度传感器',
+        desc: '监测温湿度状况实时反馈',
+        url: 'https://cdn.aqara.com/cdn/website/static/lodash-4.17.15/温湿度传感器.png',
+      },
+      {
+        label: '烟雾报警器',
+        desc: '时刻守护家庭火情安全',
+        url: 'https://cdn.aqara.com/cdn/website/static/lodash-4.17.15/烟雾报警器.png',
+      },
+    ]
+
+    const optionsList = ref(rightList)
+    const getFirstOne = optionsList.value[0]
+    const currentItem = ref(getFirstOne)
+    const play = ref(false)
+
+    const classObject = computed(() => {
+      return {
+        'smart-box-right': true,
+        ripple: play.value,
+      }
+    })
+
+    const handleClick = () => {
+      console.log('handle click =>', document.querySelector('.smart-box-right'))
+
+      play.value = !play.value
+      // document.querySelector('#audio').play()
+    }
+
+    return { optionsList, currentItem, play, classObject, handleClick }
+  },
+})
+</script>
+
+
+<style lang="less" scoped>
+.smart-box-right {
+  width: 340px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 2px;
+  border: 2px solid #f0f0f0;
+  padding: 12px;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 9%);
+
+  position: relative;
+
+  animation-play-state: paused;
+  -webkit-animation-play-state: paused;
+
+  .smart-select {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 250px;
+    // margin: auto;
+    margin-top: 12px;
+  }
+}
+
+.smart-box-right::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 1px solid red;
+  border-radius: 5px;
+  pointer-events: none;
+  opacity: 0;
+  animation: ripple 2s linear 1s infinite;
+  animation-play-state: paused;
+  -webkit-animation-play-state: paused;
+}
+
+.smart-box-right::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 1px solid red;
+  border-radius: 5px;
+  pointer-events: none;
+  /*border-image:url(https://www.w3school.com.cn/i/border.png) 30 30 10 stretch; !*round repeat stretch*!*/
+  /*background-image: url(https://www.w3school.com.cn/i/border.png) ;*/
+  /*background-clip:border-box;*/
+  /*background-repeat:no-repeat;*/
+  /*background-color: transparent;*/
+  opacity: 0;
+  animation: ripple 2s linear infinite;
+  animation-play-state: paused;
+  -webkit-animation-play-state: paused;
+}
+.ripple {
+  animation-play-state: running;
+  -webkit-animation-play-state: running;
+}
+.ripple:before {
+  animation-play-state: running;
+  -webkit-animation-play-state: running;
+}
+.ripple:after {
+  animation-play-state: running;
+  -webkit-animation-play-state: running;
+}
+@keyframes ripple {
+  0% {
+    transform: scale(1);
+    opacity: 0;
+  }
+
+  25% {
+    transform: scale(1.25);
+    opacity: 0.1;
+  }
+
+  50% {
+    transform: scale(1.5);
+    opacity: 0.3;
+  }
+
+  75% {
+    transform: scale(1.75);
+    opacity: 0.5;
+  }
+
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+</style>
