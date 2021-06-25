@@ -17,9 +17,9 @@ git add -A
 git commit -m 'deploy'
 
 # 如果你要部署在 https://<USERNAME>.github.io
-# git push -f https://github.com/XQ0118/smart-home.git main
+git push -f https://github.com/XQ0118/XQ0118.github.io.git master
 
 # 如果你要部署在 https://<USERNAME>.github.io/<REPO>
-git push -f https://github.com/XQ0118/smart-home.git main
+# git push -f https://github.com/XQ0118/smart-home.git master
 
 cd -
