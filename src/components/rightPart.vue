@@ -11,6 +11,9 @@
         }}
       </a-button>
     </div>
+    <transition name="fade">
+      <a-alert type="info" message="我发出指令啦！" show-icon class="show-working" v-show="play"></a-alert>
+    </transition>
   </div>
 </template>
 
@@ -22,7 +25,7 @@ export default defineComponent({
   components: {
     Box,
   },
-  setup () {
+  setup (props, { emit }) {
     const rightList = [
       {
         label: '手机',
@@ -81,6 +84,8 @@ export default defineComponent({
 
       play.value = !play.value
       // document.querySelector('#audio').play()
+
+      emit('working', play.value)
     }
 
     return { optionsList, currentItem, play, isPlay, classObject, handleClick }
@@ -108,6 +113,28 @@ export default defineComponent({
     // margin: auto;
     margin-top: 12px;
   }
+
+  .show-working {
+    color: #1890ff;
+    font-size: 20px;
+    font-weight: 700;
+    top: -50px;
+    // left: 0;
+    border: 2px solid #1890ff;
+    padding: 0 12px;
+    border-radius: 4px;
+    position: absolute;
+  }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 
 .smart-box-right-ani {
@@ -133,6 +160,18 @@ export default defineComponent({
     // margin: auto;
     margin-top: 12px;
   }
+
+  .show-working {
+    color: #1890ff;
+    font-size: 20px;
+    font-weight: 700;
+    top: -50px;
+    // left: 0;
+    border: 2px solid #1890ff;
+    padding: 0 12px;
+    border-radius: 4px;
+    position: absolute;
+  }
 }
 
 .smart-box-right-ani::before {
@@ -140,10 +179,10 @@ export default defineComponent({
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  border: 2px solid red;
-  border-radius: 20px;
+  width: 400px;
+  height: 400px;
+  border: 2px solid #1890ff;
+  border-radius: 50%;
   pointer-events: none;
   opacity: 0;
   animation: ripple 2s linear 1s infinite;
@@ -158,7 +197,7 @@ export default defineComponent({
   left: 0;
   width: 400px;
   height: 400px;
-  border: 2px solid red;
+  border: 2px solid #1890ff;
   border-radius: 50%;
   pointer-events: none;
   opacity: 0;

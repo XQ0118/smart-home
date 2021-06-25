@@ -1,6 +1,6 @@
 <template>
   <div class="smart-item">
-    <h2 style="margin: 0">{{ getLabel }}</h2>
+    <h2 style="margin-bottom: 50px;">{{ getLabel }}</h2>
     <div class="box">
       <img class="smart-img" :src="getUrl" :alt="getLabel" />
     </div>

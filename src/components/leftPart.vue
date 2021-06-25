@@ -1,28 +1,38 @@
 <template>
-  <div class="smart-box">
+  <div class="smart-box-left">
     <Box :box="currentItem" :key="currentItem.url"></Box>
     <div class="smart-select">
       <a-select v-model:value="currentItem" style="width: 240px" size="large">
-        <a-select-option
-          v-for="item in optionsList"
-          :key="item.url"
-          :value="item"
-          >{{ item.label }}</a-select-option
-        >
+        <a-select-option v-for="item in optionsList" :key="item.url" :value="item">{{ item.label }}</a-select-option>
       </a-select>
     </div>
+    <transition name="fade">
+      <a-alert
+        type="success"
+        message="我收到指令啦，开始工作！"
+        show-icon
+        class="show-working"
+        v-show="getWorking"
+      ></a-alert>
+    </transition>
   </div>
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, toRefs, computed } from 'vue'
 import Box from './box.vue'
 
 export default defineComponent({
   components: {
     Box,
   },
-  setup() {
+  props: {
+    working: {
+      type: Boolean,
+      default: false
+    },
+  },
+  setup (props) {
     const leftList = [
       {
         label: '智能墙壁开关',
@@ -51,17 +61,25 @@ export default defineComponent({
       },
     ]
 
+    const { working } = toRefs(props)
+
     const optionsList = ref(leftList)
     const getFirstOne = optionsList.value[0]
     const currentItem = ref(getFirstOne)
-    return { optionsList, currentItem }
+
+    const getWorking = computed(() => {
+      console.log('getworking ', working.value)
+      return working.value
+    })
+
+    return { optionsList, currentItem, getWorking }
   },
 })
 </script>
 
 
 <style lang="less" scoped>
-.smart-box {
+.smart-box-left {
   width: 340px;
   display: flex;
   flex-direction: column;
@@ -76,5 +94,24 @@ export default defineComponent({
     // margin: auto;
     margin-top: 12px;
   }
+  .show-working {
+    font-size: 20px;
+    font-weight: 700;
+    top: -50px;
+    // left: 0;
+    padding: 0 12px;
+    border-radius: 4px;
+    position: absolute;
+  }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity .5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
