@@ -2,10 +2,15 @@
   <div :class="classObject">
     <Box :box="currentItem" :key="currentItem.url"></Box>
     <div class="smart-select">
-      <a-select v-model:value="currentItem" style="width: 200px; margin-right: 8px" size="large">
+      <a-select
+        v-model:value="currentItem"
+        :disabled="disabled"
+        style="width: 200px; margin-right: 8px"
+        size="large"
+      >
         <a-select-option v-for="item in optionsList" :key="item.url" :value="item">{{ item.label }}</a-select-option>
       </a-select>
-      <a-button size="large" type="primary" @click="handleClick">
+      <a-button size="large" type="primary" :disabled="disabled" @click="handleClick">
         {{
         isPlay
         }}
@@ -18,12 +23,18 @@
 </template>
 
 <script>
-import { computed, defineComponent, ref } from 'vue'
+import { computed, defineComponent, ref, toRefs } from 'vue'
 import Box from './box.vue'
 
 export default defineComponent({
   components: {
     Box,
+  },
+  props: {
+    disabled: {
+      type: Boolean,
+      default: false
+    },
   },
   setup (props, { emit }) {
     const rightList = [
@@ -64,6 +75,8 @@ export default defineComponent({
       },
     ]
 
+    const { disabled } = toRefs(props)
+
     const optionsList = ref(rightList)
     const getFirstOne = optionsList.value[0]
     const currentItem = ref(getFirstOne)
@@ -88,7 +101,7 @@ export default defineComponent({
       emit('working', play.value)
     }
 
-    return { optionsList, currentItem, play, isPlay, classObject, handleClick }
+    return { optionsList, currentItem, play, isPlay, classObject, handleClick, disabled }
   },
 })
 </script>

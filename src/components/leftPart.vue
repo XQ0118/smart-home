@@ -2,7 +2,7 @@
   <div class="smart-box-left">
     <Box :box="currentItem" :key="currentItem.url"></Box>
     <div class="smart-select">
-      <a-select v-model:value="currentItem" style="width: 240px" size="large">
+      <a-select v-model:value="currentItem" :disabled="disabled" style="width: 240px" size="large">
         <a-select-option v-for="item in optionsList" :key="item.url" :value="item">{{ item.label }}</a-select-option>
       </a-select>
     </div>
@@ -28,6 +28,10 @@ export default defineComponent({
   },
   props: {
     working: {
+      type: Boolean,
+      default: false
+    },
+    disabled: {
       type: Boolean,
       default: false
     },
@@ -61,18 +65,17 @@ export default defineComponent({
       },
     ]
 
-    const { working } = toRefs(props)
+    const { working, disabled } = toRefs(props)
 
     const optionsList = ref(leftList)
     const getFirstOne = optionsList.value[0]
     const currentItem = ref(getFirstOne)
 
     const getWorking = computed(() => {
-      console.log('getworking ', working.value)
       return working.value
     })
 
-    return { optionsList, currentItem, getWorking }
+    return { optionsList, currentItem, getWorking, disabled }
   },
 })
 </script>
@@ -107,7 +110,7 @@ export default defineComponent({
 
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity .5s ease;
+  transition: opacity 0.5s ease;
 }
 
 .fade-enter-from,

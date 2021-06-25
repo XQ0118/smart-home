@@ -1,10 +1,10 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-// import { Select } from 'ant-design-vue'
-import Antd from 'ant-design-vue'
+import { Select, Alert, Button, } from 'ant-design-vue'
 import 'ant-design-vue/dist/antd.css'
 
 const app = createApp(App)
 
-app.use(Antd)
+app.use(Select).use(Alert).use(Button)
+
 app.mount('#app')

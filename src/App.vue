@@ -1,10 +1,10 @@
 <template>
   <div class="container">
-    <LeftPart :working="isWorking"></LeftPart>
+    <LeftPart :disabled="isDisabled" :working="isWorking"></LeftPart>
     <div class="wifi-container">
       <Wifi class="wifi"></Wifi>
     </div>
-    <RightPart @working="handleWorking"></RightPart>
+    <RightPart :disabled="isDisabled" @working="handleWorking"></RightPart>
     <Message class="message"></Message>
   </div>
 </template>
@@ -25,7 +25,7 @@ export default defineComponent({
     const isWorking = ref(false)
     const rfa = ref(null)
 
-
+    const isDisabled = ref(false)
 
     const move = () => {
       const el = document.querySelector('.message')
@@ -35,6 +35,7 @@ export default defineComponent({
       if (left === 350) {
         cancelAnimationFrame(rfa.value)
         isWorking.value = true
+        isDisabled.value = false
       } else {
         rfa.value = requestAnimationFrame(move)
       }
@@ -43,7 +44,8 @@ export default defineComponent({
 
     const handleWorking = (state) => {
 
-      // isWorking.value = state
+      isDisabled.value = state
+
       if (state) {
         // move(-50)
         rfa.value = requestAnimationFrame(move)
@@ -53,11 +55,12 @@ export default defineComponent({
         el.style.left = ''
         el.style.right = '300px'
         isWorking.value = false
+
       }
     }
 
 
-    return { isWorking, handleWorking }
+    return { isWorking, handleWorking, isDisabled }
   },
 })
 </script>
