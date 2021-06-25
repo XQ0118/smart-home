@@ -5,6 +5,7 @@
     "build": "vite build",
     "serve": "vite preview"
   },
+  "homepage": "https://XQ0118.github.io/smart-home",
   "dependencies": {
     "ant-design-vue": "^2.2.0-beta.4",
     "less": "^4.1.1",
