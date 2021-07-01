@@ -5,7 +5,7 @@
       <Wifi class="wifi"></Wifi>
     </div>
     <RightPart :disabled="isDisabled" @working="handleWorking"></RightPart>
-    <Message class="message"></Message>
+    <Message class="icon-message"></Message>
   </div>
 </template>
 
@@ -18,32 +18,35 @@ import Message from './components/message.vue'
 
 export default defineComponent({
   components: {
-    LeftPart, RightPart, Wifi, Message
+    LeftPart,
+    RightPart,
+    Wifi,
+    Message,
   },
-  setup () {
-
+  setup() {
     const isWorking = ref(false)
     const rfa = ref(null)
 
     const isDisabled = ref(false)
 
     const move = () => {
-      const el = document.querySelector('.message')
+      const el = document.querySelector('.icon-message')
+
       const left = el.getBoundingClientRect().left
       el.style.left = `${left - 10}px`
 
-      if (left === 350) {
+      if (left === 350 || left <= 350) {
+        console.log('left 350 ', el.getBoundingClientRect())
         cancelAnimationFrame(rfa.value)
         isWorking.value = true
         isDisabled.value = false
+        return
       } else {
         rfa.value = requestAnimationFrame(move)
       }
-
     }
 
     const handleWorking = (state) => {
-
       isDisabled.value = state
 
       if (state) {
@@ -51,14 +54,12 @@ export default defineComponent({
         rfa.value = requestAnimationFrame(move)
       } else {
         console.log('done ', state)
-        const el = document.querySelector('.message')
+        const el = document.querySelector('.icon-message')
         el.style.left = ''
         el.style.right = '300px'
         isWorking.value = false
-
       }
     }
-
 
     return { isWorking, handleWorking, isDisabled }
   },
@@ -103,7 +104,7 @@ export default defineComponent({
     }
   }
 
-  .message {
+  .icon-message {
     position: absolute;
     top: 250px;
     right: 340px;

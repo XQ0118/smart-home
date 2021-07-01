@@ -1,7 +1,6 @@
 <template>
   <svg
     t="1624637586566"
-    class="icon-message"
     viewBox="0 0 1024 1024"
     version="1.1"
     xmlns="http://www.w3.org/2000/svg"
@@ -33,9 +32,7 @@
 </template>
 
 <script>
-export default {
-
-}
+export default {}
 </script>
 
 <style lang="less" scoped>
